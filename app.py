@@ -39,9 +39,12 @@ def update_province_news(province):
 def update_overall_latest():
     url = 'http://lab.isaaclin.cn/nCoV/api/overall?latest=1'
     overall_data = json.loads(requests.get(url).text)
-    overall_data['time'] = time.strftime(
+    
+    rsp = {}
+    rsp["result"] = overall_data["results"][0]
+    rsp['time'] = time.strftime(
         "%m-%d %H:%M", time.localtime(time.time()))
-    return overall_data
+    return rsp
 
 
 # 获取省份各市数据数据
@@ -94,9 +97,6 @@ def update_china_data(unit=3600 * 2):
     # 先对字典进行排序,按照value从大到小
     p_data= sorted(p_data.items(), key=lambda x: x[1], reverse=True)
     
-    #   
-    print(p_data)  
-  
     return p_data
 
 
@@ -184,79 +184,59 @@ def rank_bar(map_data,name) -> Bar:
     return c
 
 
-
 @app.route("/")
 def index():
     return render_template("index.html")
 
-
+# 全国地图数据
 @app.route("/map")
 def get_map():
     data = update_china_data()
     return china_map(data).dump_options_with_quotes()
 
+# 指定省份地图数据
+@app.route("/pmap/<string:provinceName>")
+def get_pmap(provinceName):
 
-@app.route("/map1")
-def get_map1():
+    cities_data = update_province_data(provinceName)
+    return province_map(cities_data,provinceName[:-1]).dump_options_with_quotes()
 
-    cities_data = update_province_data("安徽省")
-    return province_map(cities_data,"安徽").dump_options_with_quotes()
-
-
-@app.route("/map2")
-def get_map2():
-
-    cities_data = update_province_data("河北省")
-    return province_map(cities_data,"河北").dump_options_with_quotes()
-
-
+# 中国新闻
 @app.route("/news")
 def get_news():
     news = update_news()
     return jsonify(news)
 
-@app.route("/news1")
-def get_anhui_news():
-    news = update_province_news("安徽省")
+# 指定省份新闻
+@app.route("/pnews/<string:provinceName>")
+def get_pnews(provinceName):
+    news = update_province_news(provinceName)
     return jsonify(news)
 
-@app.route("/news2")
-def get_hebei_news():
-    news = update_province_news("河北省")
-    return jsonify(news)    
-
+# 中国数据概览
 @app.route("/overall")
 def get_overall():
     overall = update_overall_latest()
     return jsonify(overall)
 
-@app.route("/overall1")
-def get_anhui():
-    anhui = update_province_latest("安徽省")
+# 指定省份数据概览
+@app.route("/poverall/<string:provinceName>")
+def get_poverall(provinceName):
+    anhui = update_province_latest(provinceName)
     return jsonify(anhui)
 
-@app.route("/overall2")
-def get_hebei():
-    hebei = update_province_latest("河北省")
-    return jsonify(hebei)
-
-
-
+# 中国省份数据排序
 @app.route("/rank")
 def get_rank():
     province_data = update_china_data()
     return rank_bar(province_data,"全国").dump_options_with_quotes()
 
+# 指定省份的城市数据排序
+@app.route("/prank/<string:provinceName>")
+def get_prank(provinceName):
+    cities_data = update_province_data(provinceName)   
+    return rank_bar(cities_data,provinceName).dump_options_with_quotes()
 
-@app.route("/rank1")
-def get_rank1():
-    cities_data = update_province_data("安徽省")   
-    return rank_bar(cities_data,"安徽省").dump_options_with_quotes()
-
-@app.route("/rank2")
-def get_rank2():
-    cities_data = update_province_data("河北省")   
-    return rank_bar(cities_data,"河北省").dump_options_with_quotes()    
 
 
 if __name__ == "__main__":

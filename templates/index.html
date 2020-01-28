@@ -43,7 +43,7 @@
                     <!-- <img class="pr-3 float-left" src="/static/img/logo-icon.png" srcset="assets/img/logo-icon@2x.png 2x"  alt=""/> -->
                     <div class="float-left">
                         <div>
-                            <H1>2019新型肺炎疫情地图</H1>
+                            <H1>2019新型肺炎疫情地图(全国、安徽、河北)</H1>
                         </div>
                     </div>
                 </a>
@@ -77,19 +77,19 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-xl-3">
-                                        <ul class="list-unstyled mt-1" id="overall">
+                                        <ul class="list-unstyled mt-1" id="china_overview">
                                         </ul>
 
-                                        <ul class="list-unstyled base-timeline" id="newslist">
+                                        <ul class="list-unstyled base-timeline" id="china_news">
                                         </ul>
                                     </div>
                                     <div class="col-xl-4">
-                                        <div id="ncov-map" class="chart-container" style="width:360px; height:640px;">
+                                        <div id="china_map" class="chart-container" style="width:360px; height:640px;">
                                         </div>
 
                                     </div>
                                     <div class="col-xl-5">
-                                        <div id="china-rank" class="chart-container" style="width:355px; height:900px;" >
+                                        <div id="china_bar" class="chart-container" style="width:355px; height:900px;" >
                                         </div>
                                     </div>
                                 </div>
@@ -101,18 +101,18 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-xl-3">
-                                        <ul class="list-unstyled mt-1" id="overall1">
+                                        <ul class="list-unstyled mt-1" id="anhui_overview">
                                         </ul>
 
-                                        <ul class="list-unstyled base-timeline" id="newslist1">
+                                        <ul class="list-unstyled base-timeline" id="anhui_news">
                                         </ul>
                                     </div>
                                     <div class="col-xl-4">
-                                        <div id="ah-map" class="chart-container" style="width:360px; height:640px;">
+                                        <div id="anhui_map" class="chart-container" style="width:360px; height:640px;">
                                         </div>
                                     </div>
                                     <div class="col-xl-5">
-                                        <div id="ah-rank" class="chart-container" style="width:355px; height:900px;" >
+                                        <div id="anhui_bar" class="chart-container" style="width:355px; height:640px;" >
                                         </div>
                                     </div>
                                 </div>
@@ -124,18 +124,18 @@
                              <div class="card-body">
                                 <div class="row">
                                     <div class="col-xl-3">
-                                        <ul class="list-unstyled mt-1" id="overall2">
+                                        <ul class="list-unstyled mt-1" id="hebei_overview">
                                         </ul>
 
-                                        <ul class="list-unstyled base-timeline" id="newslist2">
+                                        <ul class="list-unstyled base-timeline" id="hebei_news">
                                         </ul>
                                     </div>
                                     <div class="col-xl-4">
-                                        <div id="hebei-map" class="chart-container" style="width:360px; height:640px;">
+                                        <div id="hebei_map" class="chart-container" style="width:360px; height:640px;">
                                         </div>
                                     </div>
                                     <div class="col-xl-5">
-                                        <div id="hebei-rank" class="chart-container" style="width:355px; height:900px;" >
+                                        <div id="hebei_bar" class="chart-container" style="width:355px; height:640px;" >
                                         </div>
                                     </div>
                                 </div>
@@ -174,11 +174,11 @@
     <![endif]-->
 
     <!-- echarts -->
-    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
-    <script type="text/javascript" src="https://assets.pyecharts.org/assets/maps/china.js"></script>
-    <script type="text/javascript" src="/static/js/hubei.js"></script>
-    <script type="text/javascript" src="/static/js/hebei.js"></script>
-    <script type="text/javascript" src="/static/js/anhui.js"></script>
+    <script type="text/javascript" src="/static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/vendor/map/china.js"></script>
+    <script type="text/javascript" src="/static/vendor/map/hubei.js"></script>
+    <script type="text/javascript" src="/static/vendor/map/hebei.js"></script>
+    <script type="text/javascript" src="/static/vendor/map/anhui.js"></script>
     <script type="text/javascript" src="/static/js/update.js"></script>
 </body>
 
