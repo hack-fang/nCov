@@ -1,48 +1,65 @@
-var chart = echarts.init(document.getElementById('ncov-map'), 'white', { renderer: 'canvas' });
-var chart1 = echarts.init(document.getElementById('ah-map'), 'white', { renderer: 'canvas' });
-var chart2 = echarts.init(document.getElementById('hebei-map'), 'white', { renderer: 'canvas' });
+//地图
+var china_map = echarts.init(document.getElementById('china_map'), 'white', { renderer: 'canvas' });
+var anhui_map = echarts.init(document.getElementById('anhui_map'), 'white', { renderer: 'canvas' });
+var hebei_map = echarts.init(document.getElementById('hebei_map'), 'white', { renderer: 'canvas' });
+
+// 条形图
+var china_bar = echarts.init(document.getElementById('china_bar'), 'white', { renderer: 'canvas' });
+var anhui_bar = echarts.init(document.getElementById('anhui_bar'), 'white', { renderer: 'canvas' });
+var hebei_bar = echarts.init(document.getElementById('hebei_bar'), 'white', { renderer: 'canvas' });
 
 
-var chart3 = echarts.init(document.getElementById('china-rank'), 'white', { renderer: 'canvas' });
-var chart4 = echarts.init(document.getElementById('ah-rank'), 'white', { renderer: 'canvas' });
-var chart5 = echarts.init(document.getElementById('hebei-rank'), 'white', { renderer: 'canvas' });
 
 
 $(
     function () {
+        
         updateOverall();
-        updateAnhui();
-        updateHebei();
+        updatePOverall("安徽省","#anhui_overview");
+        updatePOverall("河北省","#hebei_overview");
 
+       
+
+
+        // 取全国及省新闻
         updateNews();
-        updateAnhuiNews();
-        updateHebeiNews();
+        updatePNews("安徽省","#anhui_news");
+        updatePNews("河北省","#hebei_news");
 
-        fetchData(chart);
-        fetchData1(chart1);
-        fetchData2(chart2);
+        
 
-        fetchRankData(chart3);
-        fetchRankData1(chart4);
-        fetchRankData2(chart5);
 
-        setInterval(updateNews, 60 * 1000);
-        setInterval(updateAnhuiNews, 60 * 1000);
-        setInterval(updateHebeiNews, 60 * 1000);
+        // 取地图所需数据
+        fetchData();
+        fetchPData("安徽省",anhui_map);
+        fetchPData("河北省",hebei_map);
+       
+
+
+        // 取条形图所需数据
+        fetchRankData();
+        fetchPRankData("安徽省",anhui_bar);
+        fetchPRankData("河北省",hebei_bar);
+
+
+
 
         setInterval(updateOverall, 60 * 1000);
-        setInterval(updateAnhui, 60 * 1000);
-        setInterval(updateHebei, 60 * 1000);
+        setInterval(updatePOverall("安徽省","#anhui_overview"), 60 * 1000);
+        setInterval(updatePOverall("河北省","#hebei_overview"), 60 * 1000);
 
-
+        setInterval(updateNews, 60 * 1000);
+        setInterval(updatePNews("安徽省","#anhui_news"), 60 * 1000);
+        setInterval(updatePNews("河北省","#hebei_news"), 60 * 1000);
 
         setInterval(fetchData, 30 * 60 * 1000)
-        setInterval(fetchData1, 30 * 60 * 1000)
-        setInterval(fetchData2, 30 * 60 * 1000)
+        setInterval(fetchPData("安徽省",anhui_map), 30 * 60 * 1000)
+        setInterval(fetchPData("河北省",hebei_map), 30 * 60 * 1000)
+
 
         setInterval(fetchRankData, 30 * 60 * 1000)
-        setInterval(fetchRankData1, 30 * 60 * 1000)
-        setInterval(fetchRankData2, 30 * 60 * 1000)
+        setInterval(fetchPRankData("安徽省",anhui_bar), 30 * 60 * 1000)
+        setInterval(fetchPRankData("河北省",hebei_bar), 30 * 60 * 1000)
 
 
 
@@ -60,40 +77,24 @@ function updateOverall() {
         dataType: 'json',
         success: function (result) {
             var t = new Date()
-            overall_html = '<li class="text-muted"> <i class="fa fa-bug pr-2"></i>病毒：' + result['results'][0]['virus'] + '</li><li class="text-muted"><i class="fa fa-bolt pr-2"></i>源头：' + result['results'][0]['infectSource'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>  疑似病例：' + result['results'][0]['suspectedCount'] + '</li><li class="text-muted"><i class="fa fa-heartbeat pr-2"></i>确诊病例：' + result['results'][0]['confirmedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>治愈病例：' + result['results'][0]['curedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>死亡病例：' + result['results'][0]['deadCount'] + '</li><li class="text-muted"><i class="fa fa-clock-o pr-2"></i>更新时间：' + result['time'] + '</li>'
-            $('#overall').html(overall_html)
+            overall_html = '<li class="text-muted"> <i class="fa fa-bug pr-2"></i>病毒：' + result['result']['virus'] + '</li><li class="text-muted"><i class="fa fa-bolt pr-2"></i>源头：' + result['result']['infectSource'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>  疑似病例：' + result['result']['suspectedCount'] + '</li><li class="text-muted"><i class="fa fa-heartbeat pr-2"></i>确诊病例：' + result['result']['confirmedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>治愈病例：' + result['result']['curedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>死亡病例：' + result['result']['deadCount'] + '</li><li class="text-muted"><i class="fa fa-clock-o pr-2"></i>更新时间：' + result['time'] + '</li>'
+            $('#china_overview').html(overall_html)
         }
     });
 }
 
-function updateAnhui() {
+function updatePOverall(province,domid) {
     $.ajax({
         type: "GET",
-        url: getHost() + "/overall1",
+        url: getHost() + "/poverall/"+province,
         dataType: 'json',
         success: function (result) {
             var t = new Date()
-            overall_html = '<li class="text-muted"> <h3>安徽省</h3> <li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>  疑似病例：' + result['suspectedCount'] + '</li><li class="text-muted"><i class="fa fa-heartbeat pr-2"></i>确诊病例：' + result['confirmedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>治愈病例：' + result['curedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>死亡病例：' + result['deadCount'] + '</li><li class="text-muted"><i class="fa fa-clock-o pr-2"></i>更新时间：' + result['time'] + '</li>'
-            $('#overall1').html(overall_html)
+            overall_html = '<li class="text-muted"> <h3>' + province + '</h3> <li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>  疑似病例：' + result['suspectedCount'] + '</li><li class="text-muted"><i class="fa fa-heartbeat pr-2"></i>确诊病例：' + result['confirmedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>治愈病例：' + result['curedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>死亡病例：' + result['deadCount'] + '</li><li class="text-muted"><i class="fa fa-clock-o pr-2"></i>更新时间：' + result['time'] + '</li>'
+            $(domid).html(overall_html)
         }
     });
 }
-
-
-function updateHebei() {
-    $.ajax({
-        type: "GET",
-        url: getHost() + "/overall2",
-        dataType: 'json',
-        success: function (result) {
-            var t = new Date()
-            overall_html = '<li class="text-muted"> <h3>河北省</h3> <li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>  疑似病例：' + result['suspectedCount'] + '</li><li class="text-muted"><i class="fa fa-heartbeat pr-2"></i>确诊病例：' + result['confirmedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>治愈病例：' + result['curedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>死亡病例：' + result['deadCount'] + '</li><li class="text-muted"><i class="fa fa-clock-o pr-2"></i>更新时间：' + result['time'] + '</li>'
-            $('#overall2').html(overall_html)
-        }
-    });
-}
-
-
 
 
 function updateNews() {
@@ -106,40 +107,26 @@ function updateNews() {
             for (var i = 0, len = result.length; i < len; i++) {
                 news_html += "<li><div class='base-timeline-info'><a href=" + result[i]['sourceUrl'] + ">" + result[i]['title'] + "</a></div><small class='text-muted'>" + result[i]['infoSource'] + '</small></li>'
             }
-            $('#newslist').html(news_html)
+            $('#china_news').html(news_html)
         }
     });
 }
 
-function updateAnhuiNews() {
+function updatePNews(province,domid) {
     $.ajax({
         type: "GET",
-        url: getHost() + "/news1",
+        url: getHost() + "/pnews/"+province,
         dataType: 'json',
         success: function (result) {
             news_html = ""
             for (var i = 0, len = result.length; i < len; i++) {
                 news_html += "<li><div class='base-timeline-info'><a href=" + result[i]['sourceUrl'] + ">" + result[i]['title'] + "</a></div><small class='text-muted'>" + result[i]['infoSource'] + '</small></li>'
             }
-            $('#newslist1').html(news_html)
+            $(domid).html(news_html)
         }
     });
 }
 
-function updateHebeiNews() {
-    $.ajax({
-        type: "GET",
-        url: getHost() + "/news2",
-        dataType: 'json',
-        success: function (result) {
-            news_html = ""
-            for (var i = 0, len = result.length; i < len; i++) {
-                news_html += "<li><div class='base-timeline-info'><a href=" + result[i]['sourceUrl'] + ">" + result[i]['title'] + "</a></div><small class='text-muted'>" + result[i]['infoSource'] + '</small></li>'
-            }
-            $('#newslist2').html(news_html)
-        }
-    });
-}
 
 
 function fetchData() {
@@ -148,37 +135,25 @@ function fetchData() {
         url: getHost() + "/map",
         dataType: 'json',
         success: function (result) {
-            chart.setOption(result);
+            china_map.setOption(result);
 
 
         }
     });
 }
-function fetchData1() {
+function fetchPData(province,pchart) {
     $.ajax({
         type: "GET",
-        url: getHost() + "/map1",
+        url: getHost() + "/pmap/"+province,
         dataType: 'json',
         success: function (result) {
 
-            chart1.setOption(result);
+            pchart.setOption(result);
 
         }
     });
 }
 
-function fetchData2() {
-    $.ajax({
-        type: "GET",
-        url: getHost() + "/map2",
-        dataType: 'json',
-        success: function (result) {
-
-            chart2.setOption(result);
-
-        }
-    });
-}
 
 
 function fetchRankData() {
@@ -188,34 +163,20 @@ function fetchRankData() {
         dataType: 'json',
         success: function (result) {
 
-            chart3.setOption(result);
+            china_bar.setOption(result);
 
         }
     });
 }
 
-function fetchRankData1() {
+function fetchPRankData(province,pbar) {
     $.ajax({
         type: "GET",
-        url: getHost() + "/rank1",
+        url: getHost() + "/prank/"+province,
         dataType: 'json',
         success: function (result) {
 
-            chart4.setOption(result);
-
-        }
-    });
-}
-
-
-function fetchRankData2() {
-    $.ajax({
-        type: "GET",
-        url: getHost() + "/rank2",
-        dataType: 'json',
-        success: function (result) {
-
-            chart5.setOption(result);
+            pbar.setOption(result);
 
         }
     });
