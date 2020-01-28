@@ -2,12 +2,13 @@
 var china_map = echarts.init(document.getElementById('china_map'), 'white', { renderer: 'canvas' });
 var anhui_map = echarts.init(document.getElementById('anhui_map'), 'white', { renderer: 'canvas' });
 var hebei_map = echarts.init(document.getElementById('hebei_map'), 'white', { renderer: 'canvas' });
+var hubei_map = echarts.init(document.getElementById('hubei_map'), 'white', { renderer: 'canvas' });
 
 // 条形图
 var china_bar = echarts.init(document.getElementById('china_bar'), 'white', { renderer: 'canvas' });
 var anhui_bar = echarts.init(document.getElementById('anhui_bar'), 'white', { renderer: 'canvas' });
 var hebei_bar = echarts.init(document.getElementById('hebei_bar'), 'white', { renderer: 'canvas' });
-
+var hubei_bar = echarts.init(document.getElementById('hubei_bar'), 'white', { renderer: 'canvas' });
 
 
 
@@ -17,6 +18,7 @@ $(
         updateOverall();
         updatePOverall("安徽省","#anhui_overview");
         updatePOverall("河北省","#hebei_overview");
+        updatePOverall("湖北省","#hubei_overview");
 
        
 
@@ -25,7 +27,7 @@ $(
         updateNews();
         updatePNews("安徽省","#anhui_news");
         updatePNews("河北省","#hebei_news");
-
+        updatePNews("湖北省","#hubei_news");
         
 
 
@@ -33,13 +35,14 @@ $(
         fetchData();
         fetchPData("安徽省",anhui_map);
         fetchPData("河北省",hebei_map);
-       
+        fetchPData("湖北省",hubei_map);
 
 
         // 取条形图所需数据
         fetchRankData();
         fetchPRankData("安徽省",anhui_bar);
         fetchPRankData("河北省",hebei_bar);
+        fetchPRankData("湖北省",hubei_bar);
 
 
 
@@ -47,19 +50,23 @@ $(
         setInterval(updateOverall, 60 * 1000);
         setInterval(updatePOverall("安徽省","#anhui_overview"), 60 * 1000);
         setInterval(updatePOverall("河北省","#hebei_overview"), 60 * 1000);
+        setInterval(updatePOverall("湖北省","#hubei_overview"), 60 * 1000);
 
         setInterval(updateNews, 60 * 1000);
         setInterval(updatePNews("安徽省","#anhui_news"), 60 * 1000);
         setInterval(updatePNews("河北省","#hebei_news"), 60 * 1000);
+        setInterval(updatePNews("湖北省","#hubei_news"), 60 * 1000);
+
 
         setInterval(fetchData, 30 * 60 * 1000)
         setInterval(fetchPData("安徽省",anhui_map), 30 * 60 * 1000)
         setInterval(fetchPData("河北省",hebei_map), 30 * 60 * 1000)
-
+        setInterval(fetchPData("湖北省",hubei_map), 30 * 60 * 1000)
 
         setInterval(fetchRankData, 30 * 60 * 1000)
         setInterval(fetchPRankData("安徽省",anhui_bar), 30 * 60 * 1000)
         setInterval(fetchPRankData("河北省",hebei_bar), 30 * 60 * 1000)
+        setInterval(fetchPRankData("湖北省",hubei_bar), 30 * 60 * 1000)
 
 
 
