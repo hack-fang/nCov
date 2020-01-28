@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<html manifest="IGNORE.manifest"></html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+   
+    <title>疫情地图</title>
+
+    <!--web fonts-->
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+
+    <!--bootstrap styles-->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--icon font-->
+    <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!--jquery ui-->
+    <link href="/static/vendor/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+
+    <!--custom styles-->
+    <link href="/static/css/main.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/html5shiv.js"></script>
+    <script src="/static/vendor/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+
+<body class="fixed-nav top-nav">
+
+    <!--header-->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light" id="mainNav">
+        <div class="box-container">
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <!--brand name-->
+                <a class="navbar-brand navbar-hide-responsive" href="#">
+                    <!-- <img class="pr-3 float-left" src="/static/img/logo-icon.png" srcset="assets/img/logo-icon@2x.png 2x"  alt=""/> -->
+                    <div class="float-left">
+                        <div>
+                            <H1>2019新型肺炎疫情地图</H1>
+                        </div>
+                    </div>
+                </a>
+                <!--/brand name-->
+            </div>
+        </div>
+    </nav>
+
+    <!--/header-->
+
+
+    <!--main content wrapper-->
+    <div class="content-wrapper" style="padding-top: 0px;">
+
+        <div class="box-container">
+            <div class="container-fluid">
+
+                <!--sales statistical overview-->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card card-shadow mb-4">
+                            <div class="card-header border-0">
+                                <div class="custom-title-wrap bar-info">
+                                    <div class="custom-title">
+                                        <H3>疫情地图</H3>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- body china -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <ul class="list-unstyled mt-1" id="overall">
+                                        </ul>
+
+                                        <ul class="list-unstyled base-timeline" id="newslist">
+                                        </ul>
+                                    </div>
+                                    <div class="col-xl-9">
+                                        <div id="ncov-map" class="chart-container" style="width:360px; height:640px;">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <hr />
+                            </div>
+                             <!-- body anhui --> 
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <ul class="list-unstyled mt-1" id="overall1">
+                                        </ul>
+
+                                        <ul class="list-unstyled base-timeline" id="newslist1">
+                                        </ul>
+                                    </div>
+                                    <div class="col-xl-9">
+                                        <div id="ah-map" class="chart-container" style="width:360px; height:640px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <hr />
+                            </div>
+                             <!-- body hubei --> 
+                             <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <ul class="list-unstyled mt-1" id="overall2">
+                                        </ul>
+
+                                        <ul class="list-unstyled base-timeline" id="newslist2">
+                                        </ul>
+                                    </div>
+                                    <div class="col-xl-9">
+                                        <div id="hebei-map" class="chart-container" style="width:360px; height:640px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--/sales statistical overview-->
+
+            </div>
+        </div>
+    </div>
+    <!--/main content wrapper-->
+
+    <!--footer-->
+    <footer class="sticky-footer">
+        <div class="container">
+            <div class="text-center">
+                数据来源自丁香园,如若出现统计错误,敬请告知
+            </div>
+            <p class="copyright1" style="text-align: center;">Copyright © 2020 <a
+                    href="https://ahusmart.com"><strong>多媒体通信实验室 </strong></a> <a
+                    href="https://git.ahusmart.com/fangkai/ncov"><strong>Gitlab </strong></a>All Rights Reserved.
+        </div>
+    </footer>
+    <!--/footer-->
+
+    <!--basic scripts-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/modernizr.js"></script>
+    <![endif]-->
+
+    <!-- echarts -->
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/maps/china.js"></script>
+    <script type="text/javascript" src="/static/js/hubei.js"></script>
+    <script type="text/javascript" src="/static/js/hebei.js"></script>
+    <script type="text/javascript" src="/static/js/anhui.js"></script>
+    <script type="text/javascript" src="/static/js/update.js"></script>
+</body>
+
+</html>
