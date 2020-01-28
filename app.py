@@ -44,7 +44,6 @@ def update_overall_latest():
     rsp["result"] = overall_data["results"][0]
     rsp['time'] = time.strftime(
         "%m-%d %H:%M", time.localtime(time.time()))
-    print(rsp)
     return rsp
 
 
@@ -98,9 +97,6 @@ def update_china_data(unit=3600 * 2):
     # 先对字典进行排序,按照value从大到小
     p_data= sorted(p_data.items(), key=lambda x: x[1], reverse=True)
     
-    #   
-    print(p_data)  
-  
     return p_data
 
 
