@@ -9,6 +9,11 @@
 需要增加其他省份信息可发issue或查看 `自定义省份` 自行增加部署
 
 ## 预览图
+
+![图片.png](https://i.loli.net/2020/01/28/tiecqYUAa1F57Ju.png)
+
+手机端效果更佳
+
 在线预览:http://yiqing.ahusmart.com/
 
 ## 项目基于
