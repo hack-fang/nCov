@@ -1,8 +1,11 @@
+var chart = echarts.init(document.getElementById('ncov-map'), 'white', { renderer: 'canvas' });
+var chart1 = echarts.init(document.getElementById('ah-map'), 'white', { renderer: 'canvas' });
 var chart2 = echarts.init(document.getElementById('hebei-map'), 'white', { renderer: 'canvas' });
 
-var chart1 = echarts.init(document.getElementById('ah-map'), 'white', { renderer: 'canvas' });
 
-var chart = echarts.init(document.getElementById('ncov-map'), 'white', { renderer: 'canvas' });
+var chart3 = echarts.init(document.getElementById('china-rank'), 'white', { renderer: 'canvas' });
+var chart4 = echarts.init(document.getElementById('ah-rank'), 'white', { renderer: 'canvas' });
+var chart5 = echarts.init(document.getElementById('hebei-rank'), 'white', { renderer: 'canvas' });
 
 
 $(
@@ -19,6 +22,10 @@ $(
         fetchData1(chart1);
         fetchData2(chart2);
 
+        fetchRankData(chart3);
+        fetchRankData1(chart4);
+        fetchRankData2(chart5);
+
         setInterval(updateNews, 60 * 1000);
         setInterval(updateAnhuiNews, 60 * 1000);
         setInterval(updateHebeiNews, 60 * 1000);
@@ -32,6 +39,12 @@ $(
         setInterval(fetchData, 30 * 60 * 1000)
         setInterval(fetchData1, 30 * 60 * 1000)
         setInterval(fetchData2, 30 * 60 * 1000)
+
+        setInterval(fetchRankData, 30 * 60 * 1000)
+        setInterval(fetchRankData1, 30 * 60 * 1000)
+        setInterval(fetchRankData2, 30 * 60 * 1000)
+
+
 
     }
 );
@@ -147,7 +160,7 @@ function fetchData1() {
         url: getHost() + "/map1",
         dataType: 'json',
         success: function (result) {
-            console.log(result)
+
             chart1.setOption(result);
 
         }
@@ -160,8 +173,49 @@ function fetchData2() {
         url: getHost() + "/map2",
         dataType: 'json',
         success: function (result) {
-            console.log(result)
+
             chart2.setOption(result);
+
+        }
+    });
+}
+
+
+function fetchRankData() {
+    $.ajax({
+        type: "GET",
+        url: getHost() + "/rank",
+        dataType: 'json',
+        success: function (result) {
+
+            chart3.setOption(result);
+
+        }
+    });
+}
+
+function fetchRankData1() {
+    $.ajax({
+        type: "GET",
+        url: getHost() + "/rank1",
+        dataType: 'json',
+        success: function (result) {
+
+            chart4.setOption(result);
+
+        }
+    });
+}
+
+
+function fetchRankData2() {
+    $.ajax({
+        type: "GET",
+        url: getHost() + "/rank2",
+        dataType: 'json',
+        success: function (result) {
+
+            chart5.setOption(result);
 
         }
     });

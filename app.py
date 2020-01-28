@@ -3,7 +3,7 @@ import time
 import requests
 from flask import Flask, render_template, jsonify
 
-from pyecharts.charts import Map
+from pyecharts.charts import Map,Bar
 from pyecharts import options as opts
 
 app = Flask(__name__)
@@ -84,12 +84,17 @@ def update_china_data(unit=3600 * 2):
 
     p_data = {}
     for r in data['results']:
-        if r.get("provinceShortName") == None:
+        # 去除别的国家数据
+        if r.get("provinceShortName") == None  or r.get("country") != "中国":
             pass
         else:
             p_data[r["provinceShortName"]] = r["confirmedCount"]
 
-    p_data = [(k,v) for k,v in p_data.items()]    
+
+    # 先对字典进行排序,按照value从大到小
+    p_data= sorted(p_data.items(), key=lambda x: x[1], reverse=True)
+    
+    #   
     print(p_data)  
   
     return p_data
@@ -147,6 +152,38 @@ def province_map(cities_data,province) -> Map:
     )
     return c
 
+def rank_bar(map_data,name) -> Bar:
+    attr = []
+    value = []
+    for i in map_data:
+        a= i[0]
+        v= i[1]
+        attr.append(a)
+        value.append(v)
+    # 反转
+    attr.reverse()
+    value.reverse()
+
+    # value = [13, 10, 7, 6, 5, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1, 1]
+    # attr = ['合肥市', '阜阳市', '马鞍山市', '亳州市', '安庆市', '六安市', '铜陵市', '芜湖市',
+    #         '滁州市', '宿州市', '池州市', '蚌埠市', '宣城市', '淮北市', '淮南市', '黄山市']
+    # attr.reverse()
+    # value.reverse()
+    c = (
+        Bar()
+        .add_xaxis(attr)
+        .add_yaxis("确诊人数", value)
+        .reversal_axis()
+        .set_series_opts(label_opts=opts.LabelOpts(position="right",color="black"))
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title=name+"统计数据"),
+            yaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=-45,font_size=11)),
+            )
+    
+    )
+    return c
+
+
 
 @app.route("/")
 def index():
@@ -202,6 +239,24 @@ def get_anhui():
 def get_hebei():
     hebei = update_province_latest("河北省")
     return jsonify(hebei)
+
+
+
+@app.route("/rank")
+def get_rank():
+    province_data = update_china_data()
+    return rank_bar(province_data,"全国").dump_options_with_quotes()
+
+
+@app.route("/rank1")
+def get_rank1():
+    cities_data = update_province_data("安徽省")   
+    return rank_bar(cities_data,"安徽省").dump_options_with_quotes()
+
+@app.route("/rank2")
+def get_rank2():
+    cities_data = update_province_data("河北省")   
+    return rank_bar(cities_data,"河北省").dump_options_with_quotes()    
 
 
 if __name__ == "__main__":
