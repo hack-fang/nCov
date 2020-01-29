@@ -1,10 +1,11 @@
 # 新型肺炎疫情地图
 
-提供以下功能
+提供以下功能,支持以下省份((全国、安徽省、河北省、湖北省、浙江省))
 
-* 实时疫情地图(全国、安徽省、河北省、湖北省)
-* 实时疫情消息(全国、安徽省、河北省、湖北省)
-* 疫情数据统计排序(全国、安徽省、河北省、湖北省)
+* 实时疫情地图
+* 实时疫情消息
+* 疫情数据统计排序
+* 自定义增加省份信息更加简单
 
 需要增加其他省份信息可发issue或查看 `自定义省份` 自行增加部署
 
@@ -22,20 +23,27 @@
 * pyecharts
 * requests
 
-## 安装依赖
+## 安装依赖运行
 
 ```bash
-pip install -r requirements.txt  -i https://pypi.tuna.tsinghua.edu.cn/simple
+$ pip install -r requirements.txt  -i https://pypi.tuna.tsinghua.edu.cn/simple
+$ python app.py
 ```
 
-## 自定义省份
+## Docker 运行
 
-默认导入的是全国、安徽、河北、湖北的地图,已经内置中国各省份地图
+```bash
+$ docker build -t crawler .
+# 后台自动重启运行
+$ docker run -it -d --restart=always --name my-crawler crawler
+```
 
-1. 所有省份地图在`/static/vendor/map/`目录下,按需在index.html中引入相应地图即可
+## 自定义省份部署
 
-2. index.html文件
-适当位置复制以下模板内容,只需修改`xxx`即可,建议以省份的小写拼音命名如 anhui_overview ...
+1. 所有省份地图在`/static/vendor/map/`目录下,按需在index.html中的末尾找到相应位置引入相应地图即可
+
+2. 修改 templates/index.html文件
+适当位置复制以下模板内容,只需修改下面4个`id`中的`xxx`即可,建议以省份的小写拼音命名如 anhui等(便于js函数调用)
 
 ```html
  <!-- body xxx --> 
@@ -64,36 +72,28 @@ pip install -r requirements.txt  -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ```
 
-3. 修改update.js 文件
+3. 修改 static/js/update.js 文件
 
-适当位置增加以下模板内容即可,仿写即可
+适当位置增加以下模板内容即可,仿写即可,`xxx` 为 上一步设置的名称,同样也建议按照省份拼音命名如 anhui
 
 ```javascript
-var xxx_map = echarts.init(document.getElementById('xxx_map'), 'white', { renderer: 'canvas' });
-...
-
-var xxx_bar = echarts.init(document.getElementById('xxx_bar'), 'white', { renderer: 'canvas' });
-
 $(
     function () {
-        ...
-        updatePOverall("xxx省","#xxx_overview");
-        ...
-        updatePNews("xxx省","#xxx_news");
-        ...
-        fetchPData("xxx省",xxx_map);
-        ...
-        fetchPRankData("xxx省",xxx_bar);
-        ...
-        setInterval(updatePOverall("xxx省","#xxx_overview"), 60 * 1000);
-        setInterval(updatePNews("xxx省","#xxx_news"), 60 * 1000);
-        setInterval(fetchPData("xxx省",xxx_map), 30 * 60 * 1000)
-        setInterval(fetchPRankData("xxx省",xxx_bar), 30 * 60 * 1000)
-    })
+        
+        update_china("china");
+        update_province("安徽省","anhui");
+        update_province("河北省","hebei");
+        update_province("湖北省","hubei");
+        update_province("浙江省","zhejiang");
+        // 自定义的省份增加到此
+        update_province("xxx省","xxx");
+         
+    }
+);
 
 ```
 
-4.  运行程序, 打开网页(http://127.0.0.1:5000)
+4.  运行程序参考部署流程, 打开网页(http://127.0.0.1:5000)
 
 5. enjoy it
 
@@ -101,5 +101,5 @@ $(
 
 ## 致谢
 
-* 感谢[Isaac Lin](https://github.com/BlankerL)提供数据接口：<http://lab.isaaclin.cn/nCoV/>
+* 感谢[Isaac Lin](https://github.com/BlankerL)提供数据接口：<https://lab.isaaclin.cn/nCoV/>
 * 感谢[nCoV-Map](https://github.com/sangyx/nCoV-Map)开放的源码
