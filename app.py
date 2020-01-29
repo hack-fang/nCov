@@ -10,35 +10,37 @@ app = Flask(__name__)
 
 # 全国新闻
 def update_news():
-    url = 'http://lab.isaaclin.cn/nCoV/api/news'
+    url = 'https://lab.isaaclin.cn/nCoV/api/news?num=7'
     news_data = []
-    data = json.loads(requests.get(url).text)
-    for r in reversed(data['results'][-7:]):
+    data = json.loads(requests.get(url,verify=False).text)
+    for r in reversed(data['results']):
         news_data.append({
             'title': r['title'],
             'sourceUrl': r['sourceUrl'],
             'infoSource': time.strftime('%m-%d %H:%M:%S', time.localtime(r['pubDate'] / 1000)) + '    ' + r['infoSource']
         })
+    news_data.reverse()
     return news_data
 
 
 # 指定省份新闻
 def update_province_news(province):
-    url = 'http://lab.isaaclin.cn/nCoV/api/news?province='+province
+    url = 'https://lab.isaaclin.cn/nCoV/api/news?num=7&province='+province
     news_data = []
-    data = json.loads(requests.get(url).text)
-    for r in reversed(data['results'][-7:]):
+    data = json.loads(requests.get(url,verify=False).text)
+    for r in reversed(data['results']):
         news_data.append({
             'title': r['title'],
             'sourceUrl': r['sourceUrl'],
             'infoSource': time.strftime('%m-%d %H:%M:%S', time.localtime(r['pubDate'] / 1000)) + '    ' + r['infoSource']
         })
+    news_data.reverse()
     return news_data
 
 # 获取最新的全国统计数据
 def update_overall_latest():
-    url = 'http://lab.isaaclin.cn/nCoV/api/overall?latest=1'
-    overall_data = json.loads(requests.get(url).text)
+    url = 'https://lab.isaaclin.cn/nCoV/api/overall?latest=1'
+    overall_data = json.loads(requests.get(url,verify=False).text)
     
     rsp = {}
     rsp["result"] = overall_data["results"][0]
@@ -49,13 +51,13 @@ def update_overall_latest():
 
 # 获取省份各市数据数据
 def update_province_data(province):
-    url = 'http://lab.isaaclin.cn/nCoV/api/area?province='+province
-    province_data = json.loads(requests.get(url).text)
+    url = 'https://lab.isaaclin.cn/nCoV/api/area?latest=1&province='+province
+    province_data = json.loads(requests.get(url,verify=False).text)
     province_data['time'] = time.strftime(
         "%m-%d %H:%M", time.localtime(time.time()))
 
     # 取最新一条统计数据
-    latest_data = province_data["results"][-1]
+    latest_data = province_data["results"][0]
     cities_data = []
     for  c  in latest_data["cities"]:
         city_data = []
@@ -67,11 +69,11 @@ def update_province_data(province):
 
 # 获取最新的省份统计数据
 def update_province_latest(province):
-    url = 'http://lab.isaaclin.cn/nCoV/api/area?province='+province
-    province_data = json.loads(requests.get(url).text)
+    url = 'https://lab.isaaclin.cn/nCoV/api/area?latest=1&province='+province
+    province_data = json.loads(requests.get(url,verify=False).text)
     
     # 取最新一条统计数据
-    latest_data = province_data["results"][-1]
+    latest_data = province_data["results"][0]
     latest_data['time'] = time.strftime(
         "%m-%d %H:%M", time.localtime(time.time()))
 
@@ -81,9 +83,9 @@ def update_province_latest(province):
 # 中国各省数据
 def update_china_data(unit=3600 * 2):
 
-    url = 'http://lab.isaaclin.cn/nCoV/api/area?latest=1'
+    url = 'https://lab.isaaclin.cn/nCoV/api/area?latest=1'
     
-    data = json.loads(requests.get(url).text)
+    data = json.loads(requests.get(url,verify=False).text)
 
     p_data = {}
     for r in data['results']:
