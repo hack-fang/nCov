@@ -25,7 +25,7 @@
 ## 安装依赖
 
 ```bash
-pip install -r requirements.txt -i -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install -r requirements.txt  -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
 ## 自定义省份
