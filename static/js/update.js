@@ -84,7 +84,7 @@ function updateOverall() {
         dataType: 'json',
         success: function (result) {
             var t = new Date()
-            overall_html = '<li class="text-muted"> <i class="fa fa-bug pr-2"></i>病毒：' + result['result']['virus'] + '</li><li class="text-muted"><i class="fa fa-bolt pr-2"></i>源头：' + result['result']['infectSource'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>  疑似病例：' + result['result']['suspectedCount'] + '</li><li class="text-muted"><i class="fa fa-heartbeat pr-2"></i>确诊病例：' + result['result']['confirmedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>治愈病例：' + result['result']['curedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>死亡病例：' + result['result']['deadCount'] + '</li><li class="text-muted"><i class="fa fa-clock-o pr-2"></i>更新时间：' + result['time'] + '</li>'
+            overall_html = '<li class="text-muted"> <i class="fa fa-bug pr-2"></i>病毒：' + result['result']['virus'] + '</li><li class="text-muted"><i class="fa fa-bolt pr-2"></i>源头：' + result['result']['infectSource'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>  疑似病例：<strong>' + result['result']['suspectedCount'] + '</strong></li><li class="text-muted"><i class="fa fa-heartbeat pr-2"></i>确诊病例：<strong>' + result['result']['confirmedCount'] + '</strong></li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>治愈病例：<strong>' + result['result']['curedCount'] + '</strong></li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>死亡病例：<strong>' + result['result']['deadCount'] + '</strong></li><li class="text-muted"><i class="fa fa-clock-o pr-2"></i>更新时间：<strong>' + result['time'] + '</strong></li>'
             $('#china_overview').html(overall_html)
         }
     });
@@ -97,7 +97,7 @@ function updatePOverall(province,domid) {
         dataType: 'json',
         success: function (result) {
             var t = new Date()
-            overall_html = '<li class="text-muted"> <h3>' + province + '</h3> <li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>  疑似病例：' + result['suspectedCount'] + '</li><li class="text-muted"><i class="fa fa-heartbeat pr-2"></i>确诊病例：' + result['confirmedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>治愈病例：' + result['curedCount'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>死亡病例：' + result['deadCount'] + '</li><li class="text-muted"><i class="fa fa-clock-o pr-2"></i>更新时间：' + result['time'] + '</li>'
+            overall_html = '<li class="text-muted"> <h3>' + province + '</h3> <li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>  疑似病例：<strong>' + result['suspectedCount'] + '</strong></li><li class="text-muted"><i class="fa fa-heartbeat pr-2"></i>确诊病例：<strong>' + result['confirmedCount'] + '</strong></li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>治愈病例：<strong>' + result['curedCount'] + '</strong></li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>死亡病例：<strong>' + result['deadCount'] + '</strong></li><li class="text-muted"><i class="fa fa-clock-o pr-2"></i>更新时间：<strong>' + result['time'] + '</strong></li>'
             $(domid).html(overall_html)
         }
     });
