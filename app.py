@@ -12,7 +12,7 @@ app = Flask(__name__)
 def update_news():
     url = 'https://lab.isaaclin.cn/nCoV/api/news?num=7'
     news_data = []
-    data = json.loads(requests.get(url,verify=False).text)
+    data = json.loads(requests.get(url).text)
     for r in reversed(data['results']):
         news_data.append({
             'title': r['title'],
@@ -27,7 +27,7 @@ def update_news():
 def update_province_news(province):
     url = 'https://lab.isaaclin.cn/nCoV/api/news?num=7&province='+province
     news_data = []
-    data = json.loads(requests.get(url,verify=False).text)
+    data = json.loads(requests.get(url).text)
     for r in reversed(data['results']):
         news_data.append({
             'title': r['title'],
@@ -40,7 +40,7 @@ def update_province_news(province):
 # 获取最新的全国统计数据
 def update_overall_latest():
     url = 'https://lab.isaaclin.cn/nCoV/api/overall?latest=1'
-    overall_data = json.loads(requests.get(url,verify=False).text)
+    overall_data = json.loads(requests.get(url).text)
     
     rsp = {}
     rsp["result"] = overall_data["results"][0]
@@ -52,7 +52,7 @@ def update_overall_latest():
 # 获取省份各市数据数据
 def update_province_data(province):
     url = 'https://lab.isaaclin.cn/nCoV/api/area?latest=1&province='+province
-    province_data = json.loads(requests.get(url,verify=False).text)
+    province_data = json.loads(requests.get(url).text)
     province_data['time'] = time.strftime(
         "%m-%d %H:%M", time.localtime(time.time()))
 
@@ -70,7 +70,7 @@ def update_province_data(province):
 # 获取最新的省份统计数据
 def update_province_latest(province):
     url = 'https://lab.isaaclin.cn/nCoV/api/area?latest=1&province='+province
-    province_data = json.loads(requests.get(url,verify=False).text)
+    province_data = json.loads(requests.get(url).text)
     
     # 取最新一条统计数据
     latest_data = province_data["results"][0]
@@ -85,7 +85,7 @@ def update_china_data(unit=3600 * 2):
 
     url = 'https://lab.isaaclin.cn/nCoV/api/area?latest=1'
     
-    data = json.loads(requests.get(url,verify=False).text)
+    data = json.loads(requests.get(url).text)
 
     p_data = {}
     for r in data['results']:
