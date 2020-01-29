@@ -1,75 +1,12 @@
-//地图
-var china_map = echarts.init(document.getElementById('china_map'), 'white', { renderer: 'canvas' });
-var anhui_map = echarts.init(document.getElementById('anhui_map'), 'white', { renderer: 'canvas' });
-var hebei_map = echarts.init(document.getElementById('hebei_map'), 'white', { renderer: 'canvas' });
-var hubei_map = echarts.init(document.getElementById('hubei_map'), 'white', { renderer: 'canvas' });
-
-// 条形图
-var china_bar = echarts.init(document.getElementById('china_bar'), 'white', { renderer: 'canvas' });
-var anhui_bar = echarts.init(document.getElementById('anhui_bar'), 'white', { renderer: 'canvas' });
-var hebei_bar = echarts.init(document.getElementById('hebei_bar'), 'white', { renderer: 'canvas' });
-var hubei_bar = echarts.init(document.getElementById('hubei_bar'), 'white', { renderer: 'canvas' });
-
-
-
 $(
     function () {
         
-        updateOverall();
-        updatePOverall("安徽省","#anhui_overview");
-        updatePOverall("河北省","#hebei_overview");
-        updatePOverall("湖北省","#hubei_overview");
-
-       
-
-
-        // 取全国及省新闻
-        updateNews();
-        updatePNews("安徽省","#anhui_news");
-        updatePNews("河北省","#hebei_news");
-        updatePNews("湖北省","#hubei_news");
-        
-
-
-        // 取地图所需数据
-        fetchData();
-        fetchPData("安徽省",anhui_map);
-        fetchPData("河北省",hebei_map);
-        fetchPData("湖北省",hubei_map);
-
-
-        // 取条形图所需数据
-        fetchRankData();
-        fetchPRankData("安徽省",anhui_bar);
-        fetchPRankData("河北省",hebei_bar);
-        fetchPRankData("湖北省",hubei_bar);
-
-
-
-
-        setInterval(updateOverall, 60 * 1000);
-        setInterval(updatePOverall("安徽省","#anhui_overview"), 60 * 1000);
-        setInterval(updatePOverall("河北省","#hebei_overview"), 60 * 1000);
-        setInterval(updatePOverall("湖北省","#hubei_overview"), 60 * 1000);
-
-        setInterval(updateNews, 60 * 1000);
-        setInterval(updatePNews("安徽省","#anhui_news"), 60 * 1000);
-        setInterval(updatePNews("河北省","#hebei_news"), 60 * 1000);
-        setInterval(updatePNews("湖北省","#hubei_news"), 60 * 1000);
-
-
-        setInterval(fetchData, 30 * 60 * 1000)
-        setInterval(fetchPData("安徽省",anhui_map), 30 * 60 * 1000)
-        setInterval(fetchPData("河北省",hebei_map), 30 * 60 * 1000)
-        setInterval(fetchPData("湖北省",hubei_map), 30 * 60 * 1000)
-
-        setInterval(fetchRankData, 30 * 60 * 1000)
-        setInterval(fetchPRankData("安徽省",anhui_bar), 30 * 60 * 1000)
-        setInterval(fetchPRankData("河北省",hebei_bar), 30 * 60 * 1000)
-        setInterval(fetchPRankData("湖北省",hubei_bar), 30 * 60 * 1000)
-
-
-
+        update_china("china");
+        update_province("安徽省","anhui");
+        update_province("河北省","hebei");
+        update_province("湖北省","hubei");
+        update_province("浙江省","zhejiang");
+         
     }
 );
 
@@ -77,7 +14,48 @@ function getHost() {
     return document.location.protocol + "//" + window.location.host;
 }
 
-function updateOverall() {
+
+
+//更新全国数据和定时器
+function update_china(country_name){
+    // 分别初始化地图和条形图
+    var map = echarts.init(document.getElementById(`${country_name}_map`), 'white', { renderer: 'canvas' });
+    var bar = echarts.init(document.getElementById(`${country_name}_bar`), 'white', { renderer: 'canvas' });
+
+    // 分别更新统计数据,新闻,地图数据,条形图排行数据
+    updateOverall(`#${country_name}_overview`);
+    updateNews(`#${country_name}_news`);
+    fetchData(map);
+    fetchRankData(bar);
+    // 启动定时刷新
+    setInterval(updateOverall(`#${country_name}_overview`), 60 * 1000);
+    setInterval(updateNews(`#${country_name}_news`), 60 * 1000);
+    setInterval(fetchData(map), 30 * 60 * 1000)
+    setInterval(fetchRankData(bar), 30 * 60 * 1000)
+}
+
+
+//更新省份数据和定时器
+function update_province(province,province_pinyin){
+    // 分别初始化地图和条形图
+    var pmap = echarts.init(document.getElementById(`${province_pinyin}_map`), 'white', { renderer: 'canvas' });
+    var pbar = echarts.init(document.getElementById(`${province_pinyin}_bar`), 'white', { renderer: 'canvas' });
+    // 分别更新统计数据,新闻,地图数据,条形图排行数据
+    updatePOverall(province,`#${province_pinyin}_overview`);
+    updatePNews(province,`#${province_pinyin}_news`);
+    fetchPData(province,pmap);
+    fetchPRankData(province,pbar);
+    // 启动定时刷新
+    setInterval(updatePOverall(province,`#${province_pinyin}_overview`), 60 * 1000);
+    setInterval(updatePNews(province,`#${province_pinyin}_news`), 60 * 1000);
+    setInterval(fetchPData(province,pmap), 30 * 60 * 1000)
+    setInterval(fetchPRankData(province,pbar), 30 * 60 * 1000)
+}
+
+
+
+//更新中国概况数据
+function updateOverall(domid) {
     $.ajax({
         type: "GET",
         url: getHost() + "/overall",
@@ -85,11 +63,12 @@ function updateOverall() {
         success: function (result) {
             var t = new Date()
             overall_html = '<li class="text-muted"> <i class="fa fa-bug pr-2"></i>病毒：' + result['result']['virus'] + '</li><li class="text-muted"><i class="fa fa-bolt pr-2"></i>源头：' + result['result']['infectSource'] + '</li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>  疑似病例：<strong>' + result['result']['suspectedCount'] + '</strong></li><li class="text-muted"><i class="fa fa-heartbeat pr-2"></i>确诊病例：<strong>' + result['result']['confirmedCount'] + '</strong></li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>治愈病例：<strong>' + result['result']['curedCount'] + '</strong></li><li class="text-muted"><i class="fa fa-hospital-o pr-2"></i>死亡病例：<strong>' + result['result']['deadCount'] + '</strong></li><li class="text-muted"><i class="fa fa-clock-o pr-2"></i>更新时间：<strong>' + result['time'] + '</strong></li>'
-            $('#china_overview').html(overall_html)
+            $(domid).html(overall_html)
         }
     });
 }
 
+//更新省概况数据
 function updatePOverall(province,domid) {
     $.ajax({
         type: "GET",
@@ -103,8 +82,8 @@ function updatePOverall(province,domid) {
     });
 }
 
-
-function updateNews() {
+//更新全部新闻
+function updateNews(domid) {
     $.ajax({
         type: "GET",
         url: getHost() + "/news",
@@ -114,11 +93,12 @@ function updateNews() {
             for (var i = 0, len = result.length; i < len; i++) {
                 news_html += "<li><div class='base-timeline-info'><a href=" + result[i]['sourceUrl'] + ">" + result[i]['title'] + "</a></div><small class='text-muted'>" + result[i]['infoSource'] + '</small></li>'
             }
-            $('#china_news').html(news_html)
+            $(domid).html(news_html)
         }
     });
 }
 
+// 更新省新闻
 function updatePNews(province,domid) {
     $.ajax({
         type: "GET",
@@ -135,47 +115,50 @@ function updatePNews(province,domid) {
 }
 
 
-
-function fetchData() {
+// 取各省地图数据
+function fetchData(map) {
     $.ajax({
         type: "GET",
         url: getHost() + "/map",
         dataType: 'json',
         success: function (result) {
-            china_map.setOption(result);
+            map.setOption(result);
 
 
         }
     });
 }
-function fetchPData(province,pchart) {
+
+// 取省市地图数据
+function fetchPData(province,pmap) {
     $.ajax({
         type: "GET",
         url: getHost() + "/pmap/"+province,
         dataType: 'json',
         success: function (result) {
 
-            pchart.setOption(result);
+            pmap.setOption(result);
 
         }
     });
 }
 
 
-
-function fetchRankData() {
+// 取各省排行数据
+function fetchRankData(bar) {
     $.ajax({
         type: "GET",
         url: getHost() + "/rank",
         dataType: 'json',
         success: function (result) {
 
-            china_bar.setOption(result);
+            bar.setOption(result);
 
         }
     });
 }
 
+// 取省市排行数据
 function fetchPRankData(province,pbar) {
     $.ajax({
         type: "GET",

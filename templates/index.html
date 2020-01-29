@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<html manifest="IGNORE.manifest">
-
-</html>
 
 <head>
     <meta charset="utf-8">
@@ -12,8 +9,8 @@
     <title>疫情地图</title>
 
     <!--web fonts-->
-    <link href="http://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800" rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="http://fonts.proxy.ustclug.org/css?family=Montserrat:300,400,500,600,700,800" rel="stylesheet">
+    <link href="http://fonts.proxy.ustclug.org/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
     <!--bootstrap styles-->
     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -54,8 +51,6 @@
             </div>
         </div>
     </nav>
-
-    <!--/header-->
 
 
     <!--main content wrapper-->
@@ -169,7 +164,36 @@
                             <div>
                                 <hr />
                             </div>
-                            
+                            <!-- body zhejiang -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <ul class="list-unstyled mt-1" id="zhejiang_overview">
+                                        </ul>
+
+                                        <ul class="list-unstyled base-timeline" id="zhejiang_news">
+                                        </ul>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <div id="zhejiang_map" class="chart-container"
+                                            style="width:360px; height:640px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-5">
+                                        <div id="zhejiang_bar" class="chart-container"
+                                            style="width:355px; height:640px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <hr />
+                            </div>
+                            <!-- 扩展省份 start-->
+                            <!-- 复制上面 body 省份内容到此中间改 domid即可,记得引入相关地图 -->
+
+
+                            <!-- 扩展省份 end-->
                         </div>
                     </div>
 
@@ -206,10 +230,13 @@
 
     <!-- echarts -->
     <script type="text/javascript" src="/static/js/echarts.min.js"></script>
+    <!-- 地图 -->
     <script type="text/javascript" src="/static/vendor/map/china.js"></script>
     <script type="text/javascript" src="/static/vendor/map/hubei.js"></script>
     <script type="text/javascript" src="/static/vendor/map/hebei.js"></script>
     <script type="text/javascript" src="/static/vendor/map/anhui.js"></script>
+    <script type="text/javascript" src="/static/vendor/map/zhejiang.js"></script>
+    <!-- 更新脚本 -->
     <script type="text/javascript" src="/static/js/update.js"></script>
 </body>
 
