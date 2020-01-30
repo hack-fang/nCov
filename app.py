@@ -8,9 +8,15 @@ from pyecharts import options as opts
 
 app = Flask(__name__)
 
+# 第三方开放API
+# baseUrl = "https://lab.isaaclin.cn/nCoV/api/"
+
+baseUrl = "https://lab.ahusmart.com/nCoV/api/"
+
+
 # 全国新闻
 def update_news():
-    url = 'https://lab.isaaclin.cn/nCoV/api/news?num=7'
+    url = baseUrl + 'news?num=7'
     news_data = []
     data = json.loads(requests.get(url).text)
     for r in reversed(data['results']):
@@ -25,7 +31,7 @@ def update_news():
 
 # 指定省份新闻
 def update_province_news(province):
-    url = 'https://lab.isaaclin.cn/nCoV/api/news?num=7&province='+province
+    url = baseUrl +'news?num=7&province='+province
     news_data = []
     data = json.loads(requests.get(url).text)
     for r in reversed(data['results']):
@@ -39,7 +45,7 @@ def update_province_news(province):
 
 # 获取最新的全国统计数据
 def update_overall_latest():
-    url = 'https://lab.isaaclin.cn/nCoV/api/overall?latest=1'
+    url = baseUrl +'overall?latest=1'
     overall_data = json.loads(requests.get(url).text)
     
     rsp = {}
@@ -51,7 +57,7 @@ def update_overall_latest():
 
 # 获取省份各市数据数据
 def update_province_data(province):
-    url = 'https://lab.isaaclin.cn/nCoV/api/area?latest=1&province='+province
+    url = baseUrl +'area?latest=1&province='+province
     province_data = json.loads(requests.get(url).text)
     province_data['time'] = time.strftime(
         "%m-%d %H:%M", time.localtime(time.time()))
@@ -69,7 +75,7 @@ def update_province_data(province):
 
 # 获取最新的省份统计数据
 def update_province_latest(province):
-    url = 'https://lab.isaaclin.cn/nCoV/api/area?latest=1&province='+province
+    url = baseUrl +'area?latest=1&province='+province
     province_data = json.loads(requests.get(url).text)
     
     # 取最新一条统计数据
@@ -83,7 +89,7 @@ def update_province_latest(province):
 # 中国各省数据
 def update_china_data(unit=3600 * 2):
 
-    url = 'https://lab.isaaclin.cn/nCoV/api/area?latest=1'
+    url = baseUrl +'area?latest=1'
     
     data = json.loads(requests.get(url).text)
 
