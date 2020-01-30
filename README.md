@@ -15,7 +15,7 @@
 
 手机端效果更佳
 
-在线预览:http://yiqing.ahusmart.com/
+在线预览:https://yiqing.ahusmart.com/
 
 ## 项目基于
 * python3
