@@ -2,7 +2,10 @@
 
 提供以下功能,支持以下省份((全国、安徽省、河北省、湖北省、浙江省))
 
-* 提供API开放接口(https://lab.ahusmart.com/nCoV/api/),完全兼容第三方开放API，使用方法见[API文档](https://lab.isaaclin.cn/nCoV/)
+* 提供API开放接口 ： https://lab.ahusmart.com/nCoV/api/  
+　
+
+
 * 实时疫情地图
 * 实时疫情消息
 * 疫情数据统计排序

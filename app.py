@@ -1,6 +1,8 @@
 import json
 import time
 import requests
+import json
+import os
 from flask import Flask, render_template, jsonify
 
 from pyecharts.charts import Map,Bar
@@ -12,6 +14,11 @@ app = Flask(__name__)
 # baseUrl = "https://lab.isaaclin.cn/nCoV/api/"
 
 baseUrl = "https://lab.ahusmart.com/nCoV/api/"
+
+path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "province_cities.json")
+with open(path, "r",encoding="utf-8") as f:
+    province_city_fixed = json.load(f)
+
 
 
 # 全国新闻
@@ -67,7 +74,13 @@ def update_province_data(province):
     cities_data = []
     for  c  in latest_data["cities"]:
         city_data = []
-        city_data.append(c["cityName"]+"市")
+        # 先在修正表中找
+        if province_city_fixed[province][c["cityName"]]!=None:
+            city_data.append(province_city_fixed[province][c["cityName"]])
+        # 没有则延用原始名称
+        else:
+            city_data.append(c["cityName"])
+
         city_data.append(c["confirmedCount"])
         cities_data.append(city_data)
 
@@ -152,7 +165,7 @@ def province_map(cities_data,province) -> Map:
 
         )
 
-        .set_series_opts(label_opts=opts.LabelOpts(is_show=True,font_size=8))
+        .set_series_opts(label_opts=opts.LabelOpts(is_show=True,font_size=9))
         .set_global_opts(
             visualmap_opts=opts.VisualMapOpts(max_=20,is_piecewise=True,pieces=opt), 
             title_opts=opts.TitleOpts(title=province+"省疫情情况"),
