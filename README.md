@@ -2,10 +2,9 @@
 
 提供以下功能,支持以下省份((全国、安徽省、河北省、湖北省、浙江省))
 
-* 提供API开放接口 ： https://lab.ahusmart.com/nCoV/api/  
-　
-
-
+* 提供开放的API接口 https://lab.ahusmart.com/nCoV/api/ 
+  * 完全兼容第三方API接口 [Isaac Lin](https://github.com/BlankerL)，只需更换app,py中的baseUrl即可
+  * [API使用文档](https://lab.isaaclin.cn/nCoV/)
 * 实时疫情地图
 * 实时疫情消息
 * 疫情数据统计排序
