@@ -75,7 +75,7 @@ def update_province_data(province):
     for  c  in latest_data["cities"]:
         city_data = []
         # 先在修正表中找
-        if province_city_fixed[province][c["cityName"]]!=None:
+        if province_city_fixed[province].get(c["cityName"])!=None:
             city_data.append(province_city_fixed[province][c["cityName"]])
         # 没有则延用原始名称
         else:
@@ -185,11 +185,6 @@ def rank_bar(map_data,name) -> Bar:
     attr.reverse()
     value.reverse()
 
-    # value = [13, 10, 7, 6, 5, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1, 1]
-    # attr = ['合肥市', '阜阳市', '马鞍山市', '亳州市', '安庆市', '六安市', '铜陵市', '芜湖市',
-    #         '滁州市', '宿州市', '池州市', '蚌埠市', '宣城市', '淮北市', '淮南市', '黄山市']
-    # attr.reverse()
-    # value.reverse()
     c = (
         Bar()
         .add_xaxis(attr)
