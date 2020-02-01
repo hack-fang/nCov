@@ -1,17 +1,23 @@
 # 新型肺炎疫情地图
 
-提供以下功能,支持以下省份((全国、安徽省、河北省、湖北省、浙江省))
+## UPDATE 2020.2.1
+
+由于旧版本存在网页载入性能问题，重写了python的部分接口以减少网络请求数量，性能提高约3倍。旧版本已归档为`V0.1`,不再更新。
+
+`自定义省份` 功能修改步骤与之前基本相同，请参考 `自定义省份`
+
+提供以下功能
 
 * 提供开放的API接口 https://lab.ahusmart.com/nCoV/api/ 
-  * 完全兼容第三方API接口 [Isaac Lin](https://github.com/BlankerL)，只需更换app,py中的baseUrl即可
+  * 完全兼容第三方API接口 [Isaac Lin](https://github.com/BlankerL)，只需更换`app.py`中的`baseUrl`即可
   * [API使用文档](https://lab.isaaclin.cn/nCoV/)
 * 实时疫情地图
 * 实时疫情消息
 * 疫情数据统计排序
-* 自定义增加省份信息更加简单
+* 自定义增加省份
 
 
-需要增加其他省份信息可发issue或查看 `自定义省份` 自行增加部署
+需要增加其他省份信息查看 `自定义省份` 
 
 ## 预览图
 
@@ -84,7 +90,7 @@ $ docker run -it -d --restart=always --name my-crawler crawler
 $(
     function () {
         
-        update_china("china");
+        update_china("中国","china");
         update_province("安徽省","anhui");
         update_province("河北省","hebei");
         update_province("湖北省","hubei");
