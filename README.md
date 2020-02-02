@@ -10,7 +10,7 @@
 
 * 提供开放的API接口 https://lab.ahusmart.com/nCoV/api/ 
   * 完全兼容第三方API接口 [Isaac Lin](https://github.com/BlankerL)，只需更换`app.py`中的`baseUrl`即可
-  * [API使用文档](https://lab.isaaclin.cn/nCoV/)
+  * API使用文档，参考 API.md
 * 实时疫情地图
 * 实时疫情消息
 * 疫情数据统计排序
