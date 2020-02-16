@@ -4,7 +4,7 @@
 本接口为全国新型肺炎疫情实时数据接口，数据来源为丁香园，开放给所有有需要的人。兼容 [BlankerL](https://github.com/BlankerL/DXY-2019-nCoV-Crawler) 的接口，并提供额外的接口
 
 
-https://lab.ahusmart.com/
+基础URL: https://lab.ahusmart.com/ (不要直接请求)
 
 ## 请求接口 /nCoV/api/overall
 
@@ -422,3 +422,92 @@ https://lab.ahusmart.com/
     "success": true
 }
 ```
+### 请求接口 https://lab.ahusmart.com/nCoV/api/detail
+
+返回指定区域的疫情小区的详细信息
+
+提供三种组合方式，分别查询:
+-  全国所有数据
+    - https://lab.ahusmart.com/nCoV/api/detail
+-  指定省份或直辖市所有的数据
+    - https://lab.ahusmart.com/nCoV/api/detail?province=上海市
+-  指定城市所有的数据
+    - https://lab.ahusmart.com/nCoV/api/detail?city=武汉市
+-  指定三级行政机构(即xx省xx市xx区)所有的数据
+    - https://lab.ahusmart.com/nCoV/api/detail?city=合肥市&county=蜀山区
+
+
+|  变量名 |  注释 |
+| :------------: | :------------: |
+| province  | 省份名或直辖市名如: 上海市 西藏自治区 湖北省 |
+| city  | 二级行政区域，如 武汉市 浦东新区  |
+| county  | 三级行政区域 如 蜀山区(合肥市) |
+
+### 返回数据 
+
+
+|  变量名 |  注释 |
+| :------------: | :------------: |
+|  country |  中国 |
+|  province | 省份名  |
+| city  |  城市名 |
+|  county |  	三级行政区域名  |
+| detail |  详细地址 |
+| position  | 百度地图经纬度坐标  |
+| infoSource  | 数据来源  |
+| sourceUrl  | 数据来源链接  |
+|  show |   	可忽略 |
+
+
+
+### 实例 
+
+#### 请求
+
+- Method: **GET**
+- URL:```https://lab.ahusmart.com/nCoV/api/detail?city=合肥市&county=蜀山区```
+
+
+#### 响应
+
+- Body
+
+```json
+{
+    "results": [
+        {
+            "country": "中国",
+            "province": "安徽省",
+            "city": "合肥市",
+            "county": "蜀山区",
+            "detail": "蜀山区中央美域A区",
+            "position": [
+                117.24297069728766,
+                31.87368409239553
+            ],
+            "infoSource": "合肥市卫生健康委员会",
+            "sourceUrl": "http://wjw.hefei.gov.cn/ztzl/xxgzbdgrdfyyqfk/xxfb/17723463.html",
+            "show": false
+        },
+        {
+            "country": "中国",
+            "province": "安徽省",
+            "city": "合肥市",
+            "county": "蜀山区",
+            "detail": "蜀山区中铁青秀城",
+            "position": [
+                117.25144560882877,
+                31.878036498537217
+            ],
+            "infoSource": "合肥市卫生健康委员会",
+            "sourceUrl": "http://wjw.hefei.gov.cn/ztzl/xxgzbdgrdfyyqfk/xxfb/17723463.html",
+            "show": false
+        },
+        ...
+      
+    ],
+    "success": true
+}
+```
+
+
