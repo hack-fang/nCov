@@ -465,7 +465,7 @@
 #### 请求
 
 - Method: **GET**
-- URL:```https://lab.ahusmart.com/nCoV/api/detail?city=合肥市&county=蜀山区```
+- URL:```https://lab.ahusmart.com/nCoV/api/detail?city=合肥市&county=庐阳区```
 
 
 #### 响应
@@ -473,41 +473,55 @@
 - Body
 
 ```json
-{
-    "results": [
+"results": [
         {
             "country": "中国",
             "province": "安徽省",
             "city": "合肥市",
-            "county": "蜀山区",
-            "detail": "蜀山区中央美域A区",
+            "county": "庐阳区",
+            "detail": "庐阳区古城新村",
             "position": [
-                117.24297069728766,
-                31.87368409239553
+                117.26218089149292,
+                31.88207377533681
             ],
             "infoSource": "合肥市卫生健康委员会",
             "sourceUrl": "http://wjw.hefei.gov.cn/ztzl/xxgzbdgrdfyyqfk/xxfb/17723463.html",
+            "updateTime": 1580832000,
             "show": false
         },
         {
             "country": "中国",
             "province": "安徽省",
             "city": "合肥市",
-            "county": "蜀山区",
-            "detail": "蜀山区中铁青秀城",
+            "county": "庐阳区",
+            "detail": "庐阳区探矿厂宿舍",
             "position": [
-                117.25144560882877,
-                31.878036498537217
+                117.29257592382478,
+                31.9112576875506
             ],
             "infoSource": "合肥市卫生健康委员会",
             "sourceUrl": "http://wjw.hefei.gov.cn/ztzl/xxgzbdgrdfyyqfk/xxfb/17723463.html",
+            "updateTime": 1580832000,
             "show": false
         },
-        ...
-      
+        {
+            "country": "中国",
+            "province": "安徽省",
+            "city": "合肥市",
+            "county": "庐阳区",
+            "detail": "庐阳区杏林花园南区",
+            "position": [
+                117.29385649526486,
+                31.900067994996597
+            ],
+            "infoSource": "合肥市卫生健康委员会",
+            "sourceUrl": "http://wjw.hefei.gov.cn/ztzl/xxgzbdgrdfyyqfk/xxfb/17723463.html",
+            "updateTime": 1580832000,
+            "show": false
+        },
+        ....
     ],
     "success": true
-}
 ```
 
 
