@@ -456,6 +456,7 @@
 | position  | 百度地图经纬度坐标  |
 | infoSource  | 数据来源  |
 | sourceUrl  | 数据来源链接  |
+| updateTime  | 更新时间，unxi秒形式  |
 |  show |   	可忽略 |
 
 
